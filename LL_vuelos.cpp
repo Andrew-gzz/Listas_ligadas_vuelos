@@ -146,7 +146,6 @@ bool buscar_vuelo(int busqueda) {
 }
 
 //Imprimir datos
-
 void imprimir_vuelos(nodo_vuelos* nodo) {	
 	cout << "ID: " << nodo->ID_vuelo << endl;
 	cout << "Estatus: " << nodo->Estatus << endl;
@@ -247,8 +246,6 @@ int main() {
 			break;
 		}
 		
-
-
 	} while (opc < 5);
 
 	escribe_arch_vuelos(carpeta);
