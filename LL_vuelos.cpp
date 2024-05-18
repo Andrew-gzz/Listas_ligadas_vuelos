@@ -155,6 +155,50 @@ void imprimir_vuelos(nodo_vuelos* nodo) {
 	cout << "Asientos tipo Ejecutivo:" << nodo->Asientos_T << " Costo por asiento: "<< nodo->Precio_E << endl; 
 }
 
+int obtener_tamaño() { 
+	int tamaño = 0;
+	nodo_vuelos* temp = ini_vuelos; 
+	while (temp != nullptr) { 
+		tamaño++; 
+		temp = temp->sig; 
+	}
+	return tamaño;
+}
+nodo_vuelos* obtener_nodo_por_indice(int indice) {
+	nodo_vuelos* temp = ini_vuelos;
+	for (int i = 0; i < indice; ++i) {
+		if (temp != nullptr) {
+			temp = temp->sig;
+		}
+	}
+	return temp;
+}
+
+nodo_vuelos* busqueda_binaria(int ID_vuelo_buscado) { 
+	int inicio = 0;
+	int fin = obtener_tamaño() - 1; 
+
+	while (inicio <= fin) {
+		int medio = inicio + (fin - inicio) / 2;
+		nodo_vuelos* nodo_medio = obtener_nodo_por_indice(medio); 
+
+		if (nodo_medio == nullptr) { 
+			return nullptr; // No encontrado 
+		}
+
+		if (nodo_medio->ID_vuelo == ID_vuelo_buscado) { 
+			return nodo_medio; // Encontrado 
+		}
+		if (nodo_medio->ID_vuelo < ID_vuelo_buscado) { 
+			inicio = medio + 1; 
+		}
+		else {
+			fin = medio - 1; 
+		}
+	}
+	return nullptr; // No encontrado
+}
+
 int main() {
 	//para los archivos de texto
 	char carpeta[MAX_PATH] = ""; 
@@ -172,7 +216,8 @@ int main() {
 		printf("2. Eliminar vuelo\n");
 		printf("3. Buscar vuelo\n");
 		printf("4. Lista de vuelos (ini)\n");
-		printf("5. Salir\n");
+		printf("5. Busqueda Binaria \n");
+		printf("6. Salir\n");
 		cin >> opc; 
 
 		switch (opc)
@@ -241,12 +286,25 @@ int main() {
 			}
 			system("pause");
 		}break;
+		case 5: {
+			cout << "ID del vuelo:"; 
+			cin >> ID; 
+			nodo_vuelos* resultado = busqueda_binaria(ID); 
+			if (resultado != NULL) {
+			imprimir_vuelos(resultado);
+			}
+			else{			
+				cout << "ID no encontrado" << endl;
+			}
+
+			system("pause");
+		}break;
 
 		default:
 			break;
 		}
 		
-	} while (opc < 5);
+	} while (opc < 6);
 
 	escribe_arch_vuelos(carpeta);
 
